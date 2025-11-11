@@ -3,25 +3,33 @@ using SalesStock.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Conexão com PostgreSQL
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy => policy.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+});
+
+// ✅ Registro do DbContext (injeção de dependência)
 builder.Services.AddDbContext<SalesStockDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Controllers + Swagger
+// Controllers
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+// Logs no console (opcional)
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 var app = builder.Build();
 
-// Configuração Swagger
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// CORS
+app.UseCors("AllowAll");
 
-app.UseHttpsRedirection();
 app.UseAuthorization();
+
 app.MapControllers();
+
 app.Run();

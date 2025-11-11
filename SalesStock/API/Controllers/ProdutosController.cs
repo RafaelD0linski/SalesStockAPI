@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 namespace SalesStock.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class ProdutosController : ControllerBase
     {
         private readonly SalesStockDbContext _context;
@@ -18,8 +18,11 @@ namespace SalesStock.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Produto>>> GetAll() =>
-            await _context.Produtos.ToListAsync();
+        public async Task<ActionResult<IEnumerable<Produto>>> GetAll()
+        {
+            var produtos = await _context.Produtos.ToListAsync();
+            return Ok(produtos);
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Produto>> GetById(int id)

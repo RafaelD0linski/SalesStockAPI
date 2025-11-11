@@ -11,6 +11,8 @@ namespace SalesStock.Infrastructure.Data
 
         public DbSet<Produto> Produtos => Set<Produto>();
         public DbSet<Cliente> Clientes => Set<Cliente>();
+        public DbSet<Venda> Vendas => Set<Venda>();
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
