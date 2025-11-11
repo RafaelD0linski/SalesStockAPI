@@ -9,7 +9,7 @@ using SalesStock.Infrastructure.Data;
 
 #nullable disable
 
-namespace SalesStockAPI.SalesStock.Infrastructure.Migrations
+namespace SalesStockAPI.SalesStock.Infrastructure.Migrations;
 {
     [DbContext(typeof(SalesStockDbContext))]
     [Migration("20251111191928_AddTableVendas")]

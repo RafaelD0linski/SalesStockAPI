@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SalesStockAPI.SalesStock.Domain.Enums
+namespace SalesStockAPI.SalesStock.Domain.Enums;
+
+internal class CategoriaProduto
 {
-    internal class CategoriaProduto
-    {
-    }
 }
