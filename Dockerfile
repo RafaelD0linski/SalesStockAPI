@@ -2,14 +2,14 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copia o arquivo .csproj e restaura as dependências
+# Copia o arquivo de projeto e restaura dependências
 COPY ["SalesStockAPI/SalesStockAPI.csproj", "SalesStockAPI/"]
 RUN dotnet restore "SalesStockAPI/SalesStockAPI.csproj"
 
 # Copia o restante do código
 COPY . .
 
-# Compila o projeto em modo Release
+# Compila em modo Release
 WORKDIR /src/SalesStockAPI
 RUN dotnet publish "SalesStockAPI.csproj" -c Release -o /app/publish
 
