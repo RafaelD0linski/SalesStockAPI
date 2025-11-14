@@ -10,126 +10,125 @@ using SalesStock.Infrastructure.Data;
 #nullable disable
 
 namespace SalesStockAPI.SalesStock.Infrastructure.Migrations;
+
+[DbContext(typeof(SalesStockDbContext))]
+[Migration("20251111191928_AddTableVendas")]
+partial class AddTableVendas
 {
-    [DbContext(typeof(SalesStockDbContext))]
-    [Migration("20251111191928_AddTableVendas")]
-    partial class AddTableVendas
+    /// <inheritdoc />
+    protected override void BuildTargetModel(ModelBuilder modelBuilder)
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
-        {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.10")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+        modelBuilder
+            .HasAnnotation("ProductVersion", "9.0.10")
+            .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+        NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("SalesStock.Domain.Entities.Cliente", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+        modelBuilder.Entity("SalesStock.Domain.Entities.Cliente", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CPF")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("CPF")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                b.Property<string>("Email")
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnType("character varying(100)");
 
-                    b.Property<string>("Endereco")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("Endereco")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                b.Property<string>("Nome")
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnType("character varying(100)");
 
-                    b.Property<string>("Telefone")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("Telefone")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("CPF")
-                        .IsUnique();
+                b.HasIndex("CPF")
+                    .IsUnique();
 
-                    b.ToTable("Clientes", (string)null);
-                });
+                b.ToTable("Clientes", (string)null);
+            });
 
-            modelBuilder.Entity("SalesStock.Domain.Entities.Produto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+        modelBuilder.Entity("SalesStock.Domain.Entities.Produto", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Categoria")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                b.Property<string>("Categoria")
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnType("character varying(50)");
 
-                    b.Property<DateTime>("DataCadastro")
-                        .HasColumnType("timestamp with time zone");
+                b.Property<DateTime>("DataCadastro")
+                    .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Descricao")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("Descricao")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                b.Property<string>("Nome")
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnType("character varying(100)");
 
-                    b.Property<decimal>("Preco")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)");
+                b.Property<decimal>("Preco")
+                    .HasPrecision(10, 2)
+                    .HasColumnType("numeric(10,2)");
 
-                    b.Property<int>("QuantidadeEstoque")
-                        .HasColumnType("integer");
+                b.Property<int>("QuantidadeEstoque")
+                    .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Produtos", (string)null);
-                });
+                b.ToTable("Produtos", (string)null);
+            });
 
-            modelBuilder.Entity("SalesStock.Domain.Entities.Venda", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+        modelBuilder.Entity("SalesStock.Domain.Entities.Venda", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Cliente")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("Cliente")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.Property<DateTime>("DataVenda")
-                        .HasColumnType("timestamp with time zone");
+                b.Property<DateTime>("DataVenda")
+                    .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Produto")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("Produto")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("integer");
+                b.Property<int>("Quantidade")
+                    .HasColumnType("integer");
 
-                    b.Property<decimal>("ValorTotal")
-                        .HasColumnType("numeric");
+                b.Property<decimal>("ValorTotal")
+                    .HasColumnType("numeric");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Vendas");
-                });
+                b.ToTable("Vendas");
+            });
 #pragma warning restore 612, 618
-        }
     }
 }
