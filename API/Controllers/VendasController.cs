@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SalesStock.Infrastructure.Data;
 using SalesStock.Domain.Entities;
@@ -16,14 +16,14 @@ public class VendasController : ControllerBase
         _context = context;
     }
 
-    // GET: api/vendas
+    // GET: vendas
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Venda>>> GetVendas()
     {
         return await _context.Set<Venda>().ToListAsync();
     }
 
-    // GET: api/vendas/{id}
+    // GET: vendas/{id}
     [HttpGet("{id}")]
     public async Task<ActionResult<Venda>> GetVenda(int id)
     {
@@ -35,7 +35,7 @@ public class VendasController : ControllerBase
         return venda;
     }
 
-    // POST: api/vendas
+    // POST: vendas
     [HttpPost]
     public async Task<ActionResult<Venda>> PostVenda(Venda venda)
     {
@@ -45,7 +45,7 @@ public class VendasController : ControllerBase
         return CreatedAtAction(nameof(GetVenda), new { id = venda.Id }, venda);
     }
 
-    //PUT: api/vendas/{id}
+    // PUT: vendas/{id}
     [HttpPut("{id}")]
     public async Task<IActionResult> PutVenda(int id, Venda venda)
     {
@@ -81,5 +81,31 @@ public class VendasController : ControllerBase
         await _context.SaveChangesAsync();
 
         return NoContent();
+    }
+
+    // 🔥 NOVO ENDPOINT — FILTRAR POR PERÍODO
+    // GET: vendas/por-periodo?inicio=2025-01-01&fim=2025-01-31
+    [HttpGet("por-periodo")]
+    public async Task<ActionResult<IEnumerable<object>>> GetVendasPorPeriodo(
+        [FromQuery] DateTime inicio,
+        [FromQuery] DateTime fim)
+    {
+        if (inicio == default || fim == default)
+            return BadRequest("Datas inválidas. Use: YYYY-MM-DD");
+
+        var vendas = await _context.Set<Venda>()
+            .Where(v => v.DataVenda >= inicio && v.DataVenda <= fim)
+            .Select(v => new
+            {
+                v.Id,
+                v.Cliente,
+                ProdutoNome = v.Produto,   // para facilitar o uso no front
+                v.Quantidade,
+                v.ValorTotal,
+                v.DataVenda
+            })
+            .ToListAsync();
+
+        return Ok(vendas);
     }
 }
